@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>አየር ሁኔታ ማሳወቂያ አገልግሎት | Weather Forecast SMS Service</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Language Toggle Button -->
+    <div class="language-toggle">
+        <button id="toggleLanguage" class="bg-green-600 text-white px-3 py-1 rounded-full text-sm flex items-center">
+            <i class="fas fa-language mr-1"></i>
+            <span id="currentLanguage">English</span>
+        </button>
+    </div>
+
+    <!-- English Content -->
+    <div id="english-content">
+        <!-- Header -->
+        <header class="bg-green-700 text-white py-6 px-4 text-center">
+            <h1 class="text-2xl md:text-3xl font-bold mb-2">Weather Forecast SMS Service</h1>
+            <p class="text-green-100">Get daily weather updates for your farm via SMS</p>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="py-8 px-4 max-w-4xl mx-auto">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-6">
+                        <h2 class="text-xl font-semibold text-green-800 mb-4">Why Register?</h2>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Receive accurate weather forecasts for your specific location</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Daily SMS alerts about rainfall, temperature, and wind</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Helps plan farming activities like planting and irrigation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Free service for Ethiopian farmers</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="md:w-1/2 bg-green-50 p-6">
+                        <h2 class="text-xl font-semibold text-green-800 mb-4">Sample Forecast</h2>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-map-marker-alt text-green-600 mr-2"></i>
+                                <span class="font-medium">Addis Ababa</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-3">
+                                <div>
+                                    <div class="text-3xl font-bold">22°C</div>
+                                    <div class="text-gray-600">Partly Cloudy</div>
+                                </div>
+                                <i class="fas fa-cloud-sun text-4xl text-yellow-500"></i>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 text-center text-sm">
+                                <div class="bg-gray-100 p-2 rounded">
+                                    <div>Rain</div>
+                                    <div class="font-medium">10%</div>
+                                </div>
+                                <div class="bg-gray-100 p-2 rounded">
+                                    <div>Humidity</div>
+                                    <div class="font-medium">65%</div>
+                                </div>
+                                <div class="bg-gray-100 p-2 rounded">
+                                    <div>Wind</div>
+                                    <div class="font-medium">8 km/h</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration Form -->
+        <section class="py-8 px-4 max-w-2xl mx-auto">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-green-700 text-white py-3 px-6">
+                    <h2 class="text-xl font-semibold">Farmer Registration</h2>
+                </div>
+                <form class="p-6 space-y-4">
+                    <div>
+                        <label for="name" class="block text-gray-700 mb-1">Full Name</label>
+                        <input type="text" id="name" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-gray-700 mb-1">Phone Number</label>
+                        <div class="flex">
+                            <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-700">+251</span>
+                            <input type="tel" id="phone" class="w-full px-4 py-2 border rounded-r-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="912345678">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 mb-1">Select Your Location</label>
+                        <div class="ethiopia-map-container mb-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Ethiopia_administrative_boundaries.svg/640px-Ethiopia_administrative_boundaries.svg.png" alt="Ethiopia Map" class="ethiopia-map" id="ethiopia-map-en">
+                            <div class="map-overlay" id="map-overlay-en"></div>
+                            <div class="woreda-list" id="woreda-list-en">
+                                <div class="back-button" onclick="hideWoredaList('en')">
+                                    <i class="fas fa-arrow-left mr-2"></i> Back to Regions
+                                </div>
+                                <h3 class="font-semibold mb-3" id="selected-region-title-en">Select Woreda</h3>
+                                <div id="woreda-items-en"></div>
+                            </div>
+                            <div class="selected-region hidden" id="selected-region-en"></div>
+                            <div class="map-controls">
+                                <div class="map-zoom">
+                                    <div class="zoom-btn" onclick="zoomMap(1.2, 'en')">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                    <div class="zoom-btn" onclick="zoomMap(0.8, 'en')">
+                                        <i class="fas fa-minus"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <input type="text" id="region-en" class="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Selected Region" readonly>
+                            <input type="text" id="woreda-en" class="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Selected Woreda" readonly>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 flex items-center justify-center">
+                            <i class="fas fa-user-plus mr-2"></i> Register for SMS Alerts
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="py-8 px-4 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-semibold text-green-800 mb-6 text-center">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="w-full text-left p-4 focus:outline-none flex justify-between items-center" onclick="toggleFAQ(1)">
+                        <span class="font-medium text-green-800">Is this service really free?</span>
+                        <i class="fas fa-chevron-down text-green-600 transition-transform duration-200" id="faq-icon-1"></i>
+                    </button>
+                    <div class="px-4 pb-4 hidden" id="faq-content-1">
+                        <p class="text-gray-700">Yes, this is a completely free service provided to support Ethiopian farmers. There are no charges for receiving the weather forecast SMS messages.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="w-full text-left p-4 focus:outline-none flex justify-between items-center" onclick="toggleFAQ(2)">
+                        <span class="font-medium text-green-800">What time will I receive the SMS?</span>
+                        <i class="fas fa-chevron-down text-green-600 transition-transform duration-200" id="faq-icon-2"></i>
+                    </button>
+                    <div class="px-4 pb-4 hidden" id="faq-content-2">
+                        <p class="text-gray-700">You will receive the weather forecast SMS every morning at 6:00 AM local time, giving you the full day's weather outlook.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="w-full text-left p-4 focus:outline-none flex justify-between items-center" onclick="toggleFAQ(3)">
+                        <span class="font-medium text-green-800">How do I update my information?</span>
+                        <i class="fas fa-chevron-down text-green-600 transition-transform duration-200" id="faq-icon-3"></i>
+                    </button>
+                    <div class="px-4 pb-4 hidden" id="faq-content-3">
+                        <p class="text-gray-700">If you need to update your phone number or location, please call our support line at 1234 or send an SMS with "UPDATE" to 9876.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-8 px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="md:flex md:justify-between">
+                    <div class="mb-6 md:mb-0">
+                        <h3 class="text-lg font-semibold mb-3">Weather Forecast SMS</h3>
+                        <p class="text-gray-400">Supporting Ethiopian farmers with accurate weather information.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3">Contact Us</h3>
+                        <ul class="space-y-2 text-gray-400">
+                            <li class="flex items-center">
+                                <i class="fas fa-phone-alt mr-2"></i>
+                                <span>+251 123 456 789</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-envelope mr-2"></i>
+                                <span>support@weathersms.et</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>Addis Ababa, Ethiopia</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400">
+                    <p>© 2023 Weather Forecast SMS Service. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Amharic Content (Hidden by default) -->
+    <div id="amharic-content" class="hidden">
+        <!-- Header -->
+        <header class="bg-green-700 text-white py-6 px-4 text-center">
+            <h1 class="text-2xl md:text-3xl font-bold mb-2">የአየር ሁኔታ ትንበያ የኤስኤምኤስ አገልግሎት</h1>
+            <p class="text-green-100">ለእርስዎ ፋርም የቀን አየር ሁኔታ ማሳወቂያ በኤስኤምኤስ ያግኙ</p>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="py-8 px-4 max-w-4xl mx-auto">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-6">
+                        <h2 class="text-xl font-semibold text-green-800 mb-4">ለምን መመዝገብ ይገባል?</h2>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>ለተወሰነ ቦታዎ ትክክለኛ የአየር ሁኔታ ትንበያ ያግኙ</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>ስለ ዝናብ, ሙቀት እና ነፋስ የቀን ኤስኤምኤስ ማሳወቂያዎች</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>የማሳብ, መልበስ እና መስኖ የመሳሰሉ የእርሻ እንቅስቃሴዎችን ለመወሰን ይረዳል</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>ለኢትዮጵዊያን አርሶ አደሮች ነፃ አገልግሎት</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="md:w-1/2 bg-green-50 p-6">
+                        <h2 class="text-xl font-semibold text-green-800 mb-4">የአየር ሁኔታ ትንበያ ምሳሌ</h2>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-map-marker-alt text-green-600 mr-2"></i>
+                                <span class="font-medium">አዲስ አበባ</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-3">
+                                <div>
+                                    <div class="text-3xl font-bold">22°C</div>
+                                    <div class="text-gray-600">ከፊል ደመናማ</div>
+                                </div>
+                                <i class="fas fa-cloud-sun text-4xl text-yellow-500"></i>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 text-center text-sm">
+                                <div class="bg-gray-100 p-2 rounded">
+                                    <div>ዝናብ</div>
+                                    <div class="font-medium">10%</div>
+                                </div>
+                                <div class="bg-gray-100 p-2 rounded">
+                                    <div>እርጥበት</div>
+                                    <div class="font-medium">65%</div>
+                                </div>
+                                <div class="bg-gray-100 p-2 rounded">
+                                    <div>ነፋስ</div>
+                                    <div class="font-medium">8 ኪ.ሜ/ሰ</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration Form -->
+        <section class="py-8 px-4 max-w-2xl mx-auto">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-green-700 text-white py-3 px-6">
+                    <h2 class="text-xl font-semibold">የአርሶ አደር ምዝገባ</h2>
+                </div>
+                <form class="p-6 space-y-4">
+                    <div>
+                        <label for="name-am" class="block text-gray-700 mb-1">ሙሉ ስም</label>
+                        <input type="text" id="name-am" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    </div>
+
+                    <div>
+                        <label for="phone-am" class="block text-gray-700 mb-1">ስልክ ቁጥር</label>
+                        <div class="flex">
+                            <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-100 text-gray-700">+251</span>
+                            <input type="tel" id="phone-am" class="w-full px-4 py-2 border rounded-r-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="912345678">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 mb-1">ቦታዎን ይምረጡ</label>
+                        <div class="ethiopia-map-container mb-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Ethiopia_administrative_boundaries.svg/640px-Ethiopia_administrative_boundaries.svg.png" alt="Ethiopia Map" class="ethiopia-map" id="ethiopia-map-am">
+                            <div class="map-overlay" id="map-overlay-am"></div>
+                            <div class="woreda-list" id="woreda-list-am">
+                                <div class="back-button" onclick="hideWoredaList('am')">
+                                    <i class="fas fa-arrow-left mr-2"></i> ወደ ክልሎች ተመለስ
+                                </div>
+                                <h3 class="font-semibold mb-3" id="selected-region-title-am">ወረዳ ይምረጡ</h3>
+                                <div id="woreda-items-am"></div>
+                            </div>
+                            <div class="selected-region hidden" id="selected-region-am"></div>
+                            <div class="map-controls">
+                                <div class="map-zoom">
+                                    <div class="zoom-btn" onclick="zoomMap(1.2, 'am')">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                    <div class="zoom-btn" onclick="zoomMap(0.8, 'am')">
+                                        <i class="fas fa-minus"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <input type="text" id="region-am" class="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="የተመረጠ ክልል" readonly>
+                            <input type="text" id="woreda-am" class="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="የተመረጠ ወረዳ" readonly>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 flex items-center justify-center">
+                            <i class="fas fa-user-plus mr-2"></i> ለኤስኤምኤስ ማሳወቂያ ይመዝገቡ
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="py-8 px-4 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-semibold text-green-800 mb-6 text-center">ተደጋግሞ የሚነሱ ጥያቄዎች</h2>
+            <div class="space-y-4">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="w-full text-left p-4 focus:outline-none flex justify-between items-center" onclick="toggleFAQ(4)">
+                        <span class="font-medium text-green-800">ይህ አገልግሎት በነፃ ነው?</span>
+                        <i class="fas fa-chevron-down text-green-600 transition-transform duration-200" id="faq-icon-4"></i>
+                    </button>
+                    <div class="px-4 pb-4 hidden" id="faq-content-4">
+                        <p class="text-gray-700">አዎ፣ ይህ ለኢትዮጵዊያን አርሶ አደሮች የሚሰጥ ነፃ አገልግሎት ነው። የአየር ሁኔታ ትንበያ ኤስኤምኤስ ለመቀበል ምንም ክፍያ አይደለም።</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="w-full text-left p-4 focus:outline-none flex justify-between items-center" onclick="toggleFAQ(5)">
+                        <span class="font-medium text-green-800">ኤስኤምኤሱን ስንት ሰዓት ላገኘው?</span>
+                        <i class="fas fa-chevron-down text-green-600 transition-transform duration-200" id="faq-icon-5"></i>
+                    </button>
+                    <div class="px-4 pb-4 hidden" id="faq-content-5">
+                        <p class="text-gray-700">የአየር ሁኔታ ትንበያ ኤስኤምኤስ በየቀኑ ጠዋት በ6፡00 የአካባቢዎ ሰዓት ይደርስዎታል።</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="w-full text-left p-4 focus:outline-none flex justify-between items-center" onclick="toggleFAQ(6)">
+                        <span class="font-medium text-green-800">መረጃዬን እንዴት ማደስ እችላለሁ?</span>
+                        <i class="fas fa-chevron-down text-green-600 transition-transform duration-200" id="faq-icon-6"></i>
+                    </button>
+                    <div class="px-4 pb-4 hidden" id="faq-content-6">
+                        <p class="text-gray-700">ስልክ ቁጥርዎን ወይም ቦታዎን ለመቀየር ከፈለጉ፣ እባክዎን የድጋፍ መስመራችንን በ1234 ይደውሉ ወይም "UPDATE" የሚለውን ቃል በመጠቀም ወደ 9876 ኤስኤምኤስ ይላኩ።</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-8 px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="md:flex md:justify-between">
+                    <div class="mb-6 md:mb-0">
+                        <h3 class="text-lg font-semibold mb-3">የአየር ሁኔታ ትንበያ ኤስኤምኤስ</h3>
+                        <p class="text-gray-400">የኢትዮጵዊያ አርሶ አደሮችን በትክክለኛ የአየር ሁኔታ መረጃ በመደገፍ ላይ።</p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3">አግኙን</h3>
+                        <ul class="space-y-2 text-gray-400">
+                            <li class="flex items-center">
+                                <i class="fas fa-phone-alt mr-2"></i>
+                                <span>+251 123 456 789</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-envelope mr-2"></i>
+                                <span>support@weathersms.et</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>አዲስ አበባ፣ ኢትዮጵዊያ</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400">
+                    <p>© 2023 የአየር ሁኔታ ትንበያ ኤስኤምኤስ አገልግሎት። ሁሉም መብቶች የተጠበቁ ናቸው።</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="scripts/main.js"></script>
+</body>
+</html>
