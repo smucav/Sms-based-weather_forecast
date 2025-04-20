@@ -1,4 +1,3 @@
-```markdown
 # 🌦️ SMS Weather Alert Backend
 
 A backend service written in Go that sends daily weather forecast updates to users via SMS, using the [Africa's Talking API](https://africastalking.com/) and [Open-Meteo Weather API](https://open-meteo.com/). Designed for farmers and informal workers who rely on timely weather alerts but lack access to smartphones or the internet.
@@ -132,4 +131,3 @@ PRs, issues, and suggestions are welcome. Help grow this to support multilingual
 
 Built with ❤️ by GreenHarvest Tech Team
 Email: [smucav@gmail.com]
-```
